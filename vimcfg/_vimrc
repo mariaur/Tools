@@ -1,0 +1,11 @@
+set nocompatible
+
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+
+behave mswin
+
+" Config VIM
+source <config path>\vim_settings.vim
+
+
