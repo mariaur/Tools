@@ -1,1 +1,1 @@
-@git difftool -d --staged -- %cd%
+@call %~dp0\gd.cmd --staged %*

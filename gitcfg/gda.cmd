@@ -1,1 +1,1 @@
-@git difftool -d HEAD -- %cd%
+@call %~dp0\gd.cmd HEAD %*
