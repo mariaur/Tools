@@ -1,1 +1,1 @@
-@git log --graph --all --decorate --oneline %*
+@call %~dp0\gh.cmd --all %*
