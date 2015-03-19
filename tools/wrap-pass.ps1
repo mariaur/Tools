@@ -52,14 +52,18 @@ if (-not $input)
 
 # type/re-type the password
 $p1 = Decrypt-SecureString(Read-Host "Password" -AsSecureString)
-$p2 = Decrypt-SecureString(Read-Host "Re-type Password" -AsSecureString)
 
-if ($p1 -ne $p2)
+if (-not $u)
 {
-    Write-Host 
-    Write-Host "Error: Passwords do not match"
+    $p2 = Decrypt-SecureString(Read-Host "Re-type Password" -AsSecureString)
 
-    exit 1
+    if ($p1 -ne $p2)
+    {
+        Write-Host 
+        Write-Host "Error: Passwords do not match"
+
+        exit 1
+    }
 }
 
 $k = Get-KeyForPassword $p1
