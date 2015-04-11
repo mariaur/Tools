@@ -12,6 +12,11 @@ set nowrap
 
 " KEYBOARD MAPPINGS
 
+" errors navigation
+map <F8>            :cn<CR>
+map <S-F8>          :cp<CR>
+
+
 " indent
 inoremap <S-Tab>    <C-O><LT><LT>
 vnoremap <Tab>      >
@@ -90,7 +95,7 @@ augroup Binary
 augroup END
 
 " sources/dirs filetype rule
-au! BufRead,BufNewFile *[Ss]ources*     set filetype=make
+au! BufRead,BufNewFile [Ss]ources*     set filetype=make
 au! BufRead,BufNewFile [Mm]akefile*     set filetype=make
 au! BufRead,BufNewFile dirs             set filetype=make
 au! BufRead,BufNewFile *.inc            set filetype=make
