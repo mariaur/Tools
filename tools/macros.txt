@@ -1,3 +1,5 @@
 \ = cd \
 .. = cd ..
 e = gvim.exe $*
+ide = start devenv.exe $*
+wd = windiff.exe $*
