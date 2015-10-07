@@ -10,5 +10,4 @@ REM Load the Visual Studio command shell configuration
 REM
 call "%VS140COMNTOOLS%\VsDevCmd.bat"
 
-doskey root=pushd d:\tfs
 set PATH=%PATH%;c:\tools\tfs
