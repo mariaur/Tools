@@ -75,6 +75,15 @@ public static class PsHelpers
         }
         
         var baseDir = Path.GetFullPath(".");
+
+        // Calculate the base directory "offset" (base path)
+        var baseDirOffset = baseDir.Length;
+
+        if (baseDir[baseDir.Length - 1] != '\\' && 
+            baseDir[baseDir.Length - 1] != '/')
+        {
+            baseDirOffset += 1;
+        }
        
         // Register a Ctrl+C handler
         var cancelSource = new CancellationTokenSource();
@@ -96,7 +105,7 @@ public static class PsHelpers
             long lineNumber = 1;
             
             // Take only the "relative" portion of the path
-            var fileName = filePath.Substring(baseDir.Length + 1);
+            var fileName = filePath.Substring(baseDirOffset);
 
             try
             {
