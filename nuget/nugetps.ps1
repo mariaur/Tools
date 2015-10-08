@@ -29,6 +29,12 @@ function global:List-NuGetPackages(
     [Parameter(Mandatory=$true)]
     [string]$packageName, 
 
+    # all versions
+    [switch]$a = $false, 
+
+    # verbose
+    [switch]$v = $false, 
+
     # optional package source
     [string]$packageSource
     )
@@ -48,7 +54,17 @@ function global:List-NuGetPackages(
         Write-Host
         Write-Host "-> $pkgName [ $pkgUrl ] ..." -ForegroundColor Yellow
 
-        $NuGetCmd = "$NuGetExe list $packageName -ConfigFile $NuGetCfg -Source $pkgUrl -Pre"
+        $NuGetCmd = "$NuGetExe list $packageName -ConfigFile $NuGetCfg -Source $pkgUrl -Pre "
+
+        if ($a)
+        {
+            $NuGetCmd += " -AllVersions"
+        }
+        if ($v)
+        {
+            $NuGetCmd += " -Verbosity detailed"
+        }
+
         iex $NuGetCmd
     }
 }
