@@ -23,7 +23,7 @@ param(
     [switch]$r = $false, 
 
     # default files
-    [string]$f = '*.cs *.*proj'
+    [string]$f = '*.cs *.*proj *.ps1 *.psm1'
     )
 
 # load the C# worker 
