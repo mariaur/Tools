@@ -7,6 +7,12 @@ param(
     # output file names only
     [switch]$fo = $false, 
 
+    # output statistics only
+    [switch]$so = $false, 
+
+    # quite mode (no info messages)
+    [switch]$q = $false, 
+
     # open vim UX
     [switch]$ui = $false, 
 
@@ -16,26 +22,39 @@ param(
     # use regular expression (vs. simple text)
     [switch]$r = $false, 
 
-    # default extensions
-    [string]$e = '*.cs *.*proj'
+    # default files
+    [string]$f = '*.cs *.*proj'
     )
 
 # load the C# worker 
 Add-Type -TypeDefinition ([IO.File]::ReadAllText("$PSScriptRoot\ssps.cs"))
 
-Write-Host
-Write-Host "INFO: Searching for '$p' in files '$e' (`$fo=$fo,`$c=$c,`$r=$r). Please wait ..."
-Write-Host
+if (-not $q)
+{
+    Write-Host
+    Write-Host "INFO: Searching for '$p' in files '$f' (`$fo=$fo,`$so=$so,`$c=$c,`$r=$r). Please wait ..."
+    Write-Host
+}
 
 $mc = 0
 
 # obtain a list of file extensions
-$fileExt = -split $e
+$fileExt = -split $f
 
 $fileMap = @{}
 
 $worker = {
-    [PsHelpers]::SearchFiles($fileExt, $p, $fo, !$c, $r) | % {
+    [PsHelpers]::SearchFiles($fileExt, $p, $fo, $q, !$c, $r) | % {
+        
+        # update the stats
+        $fileMap[$_.FileName] = 1
+        $script:mc += 1;
+
+        if ($so)
+        {
+            return
+        }
+
         # format and output the location
         if (-not $fo)
         {
@@ -45,10 +64,6 @@ $worker = {
         {
             $loc = $_.FileName
         }
-
-        $fileMap[$_.FileName] = 1
-
-        $script:mc += 1;
 
         if ($ui)
         {
@@ -87,8 +102,10 @@ else
     $ms = (Measure-Command $worker).TotalMilliseconds
 }
 
-Write-Host
-Write-Host "INFO: $mc matches found in $($fileMap.Count) files ($ms ms). "
-Write-Host
-
+if (-not $q)
+{
+    Write-Host
+    Write-Host "INFO: $mc matches found in $($fileMap.Count) files ($ms ms). "
+    Write-Host
+}
 

@@ -64,7 +64,7 @@ public static class PsHelpers
     }
     
     public static IEnumerable<MatchEntry> SearchFiles(string[] fileExt, string pattern, 
-        bool fileOnly = false, bool ignoreCase = false, bool useRegEx = false)
+        bool fileOnly = false, bool quiet = false, bool ignoreCase = false, bool useRegEx = false)
     {
         Regex regex = null;
         
@@ -158,9 +158,12 @@ public static class PsHelpers
             }
         }
 
-        Console.WriteLine();
-        Console.WriteLine("INFO: dirs(errors) - {0}({1}), files(errors) - {2}({3}). ", 
-            context.DirectoryCount, context.DirectoryErrors, context.FileCount, context.FileErrors);
+        if (!quiet)
+        {
+            Console.WriteLine();
+            Console.WriteLine("INFO: dirs(errors) - {0}({1}), files(errors) - {2}({3}). ", 
+                context.DirectoryCount, context.DirectoryErrors, context.FileCount, context.FileErrors);
+        }
     }
     
     private static IEnumerable<string> GetFilesByPatterns(SearchContext context, 
