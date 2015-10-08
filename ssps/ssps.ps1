@@ -88,7 +88,7 @@ else
 }
 
 Write-Host
-Write-Host "INFO: $mc match(es) found in $($fileMap.Count) files ($ms ms). "
+Write-Host "INFO: $mc matches found in $($fileMap.Count) files ($ms ms). "
 Write-Host
 
 
