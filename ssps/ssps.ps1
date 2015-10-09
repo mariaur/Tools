@@ -1,62 +1,70 @@
 
 param(
     # search pattern
-    [Parameter(Mandatory=$true, HelpMessage="Search pattern or string")]
-    [string]$p, 
+    [Parameter(Mandatory=$true, 
+        HelpMessage="Search pattern (regex or string literal)")]
+    [Alias("p")]
+    [string]$pattern, 
 
     # output file names only
-    [switch]$fo = $false, 
+    [Alias("fo")]
+    [switch]$fileOnly = $false, 
 
     # output statistics only
-    [switch]$so = $false, 
+    [Alias("so")]
+    [switch]$statOnly = $false, 
 
     # quite mode (no info messages)
-    [switch]$q = $false, 
+    [Alias("q")]
+    [switch]$quiet = $false, 
 
     # open vim UX
     [switch]$ui = $false, 
 
     # case sensitive search
-    [switch]$c = $false, 
+    [Alias("c")]
+    [switch]$caseSensitive = $false, 
 
     # use regular expression (vs. simple text)
-    [switch]$r = $false, 
+    [Alias("r")]
+    [switch]$regex = $false, 
 
     # default files
-    [string]$f = '*.cs *.*proj *.ps1 *.psm1 *.config'
+    [Alias("f")]
+    [string]$files = '*.cs *.*proj *.ps1 *.psm1 *.config *.xml'
     )
 
 # load the C# worker 
 Add-Type -TypeDefinition ([IO.File]::ReadAllText("$PSScriptRoot\ssps.cs"))
 
-if (-not $q)
+if (-not $quiet)
 {
     Write-Host
-    Write-Host "INFO: Searching for '$p' in files '$f' (`$fo=$fo,`$so=$so,`$c=$c,`$r=$r). Please wait ..."
+    Write-Host "INFO: Searching for '$pattern' in files '$files' (`$fo=$fileOnly,`$so=$statOnly,`$c=$caseSensitive,`$r=$regex). Please wait ..."
     Write-Host
 }
 
 $mc = 0
 
 # obtain a list of file extensions
-$fileExt = -split $f
+$fileList = -split $files
 
 $fileMap = @{}
 
 $worker = {
-    [PsHelpers]::SearchFiles($fileExt, $p, $fo, $q, !$c, $r) | % {
+    [PsHelpers]::SearchFiles($fileList, $pattern, $fileOnly, $quiet, !$caseSensitive, $regex) | % {
         
         # update the stats
         $fileMap[$_.FileName] = 1
         $script:mc += 1;
 
-        if ($so)
+        if ($statOnly)
         {
             return
         }
 
         # format and output the location
-        if (-not $fo)
+        if (-not $fileOnly)
         {
             $loc = "{0}:{1}: " -f $_.FileName, $_.LineNumber
         }
@@ -74,7 +82,7 @@ $worker = {
             Write-Host -ForegroundColor White -NoNewLine $loc
 
             # output the line text
-            if (-not $fo)
+            if (-not $fileOnly)
             {
                 Write-Host $_.LineText
             }
@@ -102,7 +110,7 @@ else
     $ms = (Measure-Command $worker).TotalMilliseconds
 }
 
-if (-not $q)
+if (-not $quiet)
 {
     Write-Host
     Write-Host "INFO: $mc matches found in $($fileMap.Count) files ($ms ms). "

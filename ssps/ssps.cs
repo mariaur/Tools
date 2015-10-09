@@ -63,7 +63,7 @@ public static class PsHelpers
         public string LineText { get; private set; }
     }
     
-    public static IEnumerable<MatchEntry> SearchFiles(string[] fileExt, string pattern, 
+    public static IEnumerable<MatchEntry> SearchFiles(string[] searchFiles, string pattern, 
         bool fileOnly = false, bool quiet = false, bool ignoreCase = false, bool useRegEx = false)
     {
         Regex regex = null;
@@ -95,7 +95,7 @@ public static class PsHelpers
 
         var context = new SearchContext(baseDir, cancelSource.Token);
 
-        foreach (var filePath in GetFilesByPatterns(context, fileExt))
+        foreach (var filePath in GetFilesByPatterns(context, searchFiles))
         {
             // Check for cancel
             context.CancelToken.ThrowIfCancellationRequested();
@@ -176,11 +176,12 @@ public static class PsHelpers
     }
     
     private static IEnumerable<string> GetFilesByPatterns(SearchContext context, 
-        string[] fileExt)
+        string[] searchFiles)
     {
-        foreach (var ext in fileExt)
+        foreach (var searchFile in searchFiles)
         {
-            var files = EnumerateFiles(context, context.BaseDir, ext, SearchOption.AllDirectories);
+            var files = EnumerateFiles(context, context.BaseDir, 
+                searchFile, SearchOption.AllDirectories);
             
             foreach (var filePath in files)
             {
@@ -190,7 +191,7 @@ public static class PsHelpers
     }
 
     private static IEnumerable<string> EnumerateFiles(SearchContext context, string path, 
-        string searchPattern, SearchOption searchOpt)
+        string searchFile, SearchOption searchOpt)
     {   
          // Check for cancel
         context.CancelToken.ThrowIfCancellationRequested();
@@ -204,10 +205,10 @@ public static class PsHelpers
             if(searchOpt == SearchOption.AllDirectories)
             {
                 dirFiles = Directory.EnumerateDirectories(path)
-                    .SelectMany(x => EnumerateFiles(context, x, searchPattern, searchOpt));
+                    .SelectMany(x => EnumerateFiles(context, x, searchFile, searchOpt));
             }
 
-            return dirFiles.Concat(Directory.EnumerateFiles(path, searchPattern));
+            return dirFiles.Concat(Directory.EnumerateFiles(path, searchFile));
         }
         catch(Exception ex)
         {
