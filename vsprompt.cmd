@@ -8,6 +8,22 @@ call "%~dp0\prompt.cmd"
 REM
 REM Load the Visual Studio command shell configuration
 REM
-call "%VS140COMNTOOLS%\VsDevCmd.bat"
+set VSTOOLSCMD=""
+
+if DEFINED VS140COMNTOOLS (
+    set VSTOOLSCMD="%VS140COMNTOOLS%\VsDevCmd.bat"
+) else (
+    if DEFINED VS120COMNTOOLS (
+        set VSTOOLSCMD="%VS120COMNTOOLS%\VsDevCmd.bat"
+    )
+)
+
+if {%VSTOOLSCMD%} == {""} (
+    echo.
+    echo ERROR: Visual Studio Tools not found!
+    goto :EOF
+)
+
+call %VSTOOLSCMD% amd64
 
 set PATH=%PATH%;c:\tools\tfs
