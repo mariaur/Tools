@@ -2,6 +2,8 @@
 
 setlocal
 
+set MSBUILD_COMMON_ARGS=/v:minimal /fl /flp:verbosity=normal
+
 if {%INETROOT%} NEQ {} (
     REM CorExt
     if {"%1"} == {"-pp"} (
@@ -14,6 +16,6 @@ if {%INETROOT%} NEQ {} (
     if {"%1"} == {"-pp"} (
         msbuild /pp:out.xml %*
     ) else (
-        msbuild %*
+        msbuild %MSBUILD_COMMON_ARGS% %*
     )
 )

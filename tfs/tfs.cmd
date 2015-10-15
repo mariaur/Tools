@@ -85,11 +85,11 @@ goto :EOF
 
 
 :TFS_ONLINE
-tfpt online . %TFS_ARGS% /r %TFS_PREVIEW% /noprompt /exclude:.git /adds /deletes /diff
+tfpt online . %TFS_ARGS% /r %TFS_PREVIEW% /noprompt /exclude:.git,_git /adds /deletes /diff
 goto :EOF
 
 :TFS_CLEAN
-tfpt scorch . %TFS_ARGS% /r %TFS_PREVIEW% /noprompt /exclude:.git /deletes /diff
+tfpt scorch . %TFS_ARGS% /r %TFS_PREVIEW% /noprompt /exclude:.git,_git /deletes /diff
 goto :EOF
 
 :TFS_DIFF
