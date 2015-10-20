@@ -3,3 +3,4 @@
 e = gvim.exe $*
 ide = start devenv.exe $*
 wd = windiff.exe $*
+ps = powershell.exe $*
