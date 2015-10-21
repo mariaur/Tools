@@ -1,4 +1,4 @@
-. .\delsfsvc.ps1
+. $PSScriptRoot\delsfsvc.ps1
 
 $packagePath = $env:PSAPP_PACKAGE_ROOT
 
