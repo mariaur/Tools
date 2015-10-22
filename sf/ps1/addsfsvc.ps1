@@ -1,4 +1,4 @@
-. $PSScriptRoot\delsfsvc.ps1
+. $PSScriptRoot\sfapp.ps1
 
 if (-not $env:SF_APP_PACKAGE_ROOT)
 {
@@ -16,7 +16,7 @@ if (-not $env:SF_APP_PACKAGE_ROOT)
 $packagePath = $env:SF_APP_PACKAGE_ROOT
 
 Write-Host
-Write-Host "INFO: Copying application package ..."
+Write-Host "INFO: Copying application package ('$fabricAppPkgName') ..."
 Copy-ServiceFabricApplicationPackage -ApplicationPackagePath $packagePath -ImageStoreConnectionString $imageStore -ApplicationPackagePathInImageStore $fabricAppPkgName -Verbose -Debug -ErrorAction Stop
 
 Write-Host
@@ -24,7 +24,7 @@ Write-Host "INFO: Registering application type ..."
 Register-ServiceFabricApplicationType -ApplicationPathInImageStore $fabricAppPkgName
 
 Write-Host
-Write-Host "INFO: Creating application instance ..."
+Write-Host "INFO: Creating application instance ('fabric:/$fabricAppName') ..."
 New-ServiceFabricApplication -ApplicationName "fabric:/$fabricAppName" -ApplicationTypeName $fabricAppName -ApplicationTypeVersion 1.0
 
 if ($services)
@@ -53,6 +53,7 @@ if ($services)
             $addsvc += $statelessSvcParams
         }
 
+        Write-Host " -> '$serviceName' ..."
         iex $addsvc
     }
 }
