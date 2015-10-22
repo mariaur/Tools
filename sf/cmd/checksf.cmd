@@ -1,0 +1,1 @@
+@powershell -Command "Connect-ServiceFabricCluster"

@@ -6,75 +6,45 @@
     Name="Service Fabric Cluster for local Development and Testing"
     Version="1.0">
   <NodeTypes>
-    <!-- Front end node type -->
-    <NodeType Name="NodeType-FE" >
+    <NodeType Name="SingleNodeType" >
       <Endpoints>
-        <!-- Port of the Naming Gateway Service(NGS). NGS is always the entry point to Windows Fabric -->
+        <!-- Port of the Naming Gateway Service (NGS) -->
         <ClientConnectionEndpoint Port="19000"/>
         <HttpGatewayEndpoint Port="19007" Protocol="http"/>
         <LeaseDriverEndpoint Port="19001"/>
+        
         <ClusterConnectionEndpoint Port="19002"/>
         <ServiceConnectionEndpoint Port="19006"/>
         
-        <!-- List of ports that Windows Fabric may use in this node for customer's services.-->
+        <!-- List of ports that Windows Fabric may use in this node for customer's services -->
         <ApplicationEndpoints StartPort="44333" EndPort="44333"/>
       </Endpoints>
-      <!-- define this node type as FE -->
+      
+      <!-- Define placement properties -->
       <PlacementProperties>
-        <Property Name="NodeDomainType" Value="FE" />
+        <Property Name="NodeDomainType" Value="SingleNodeDomain" />
       </PlacementProperties>
-      <!-- localhost certificate -->
-      <Certificates>
-        <ServerCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
-        <ClientCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
-      </Certificates>
-    </NodeType>
-    
-    <!-- Mid-tier node type -->
-    <NodeType Name="NodeType-MT" >
-      <Endpoints>
-        <ClientConnectionEndpoint Port="19010"/>
-        <HttpGatewayEndpoint Port="19017" Protocol="http"/>
-        <LeaseDriverEndpoint Port="19011"/>
-        <ClusterConnectionEndpoint Port="19012"/>
-        <ServiceConnectionEndpoint Port="19016"/>
-        <ApplicationEndpoints StartPort="31001" EndPort="32000"/>
-      </Endpoints>
-      <!-- define this node type as MT -->
-      <PlacementProperties>
-        <Property Name="NodeDomainType" Value="MT" />
-      </PlacementProperties>
-      <!-- localhost certificate -->
-      <Certificates>
-        <ServerCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
-        <ClientCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
-      </Certificates>
     </NodeType>
   </NodeTypes>
   
   <Infrastructure>
     <WindowsServer IsScaleMin="true">
       <NodeList>
-        <Node NodeTypeRef="NodeType-FE" IsSeedNode="true"  IPAddressOrFQDN="localhost" NodeName="FE" FaultDomain="fd:/WestUS/Rack1/Box1" UpgradeDomain="UpgradeDomain1" />
-        <Node NodeTypeRef="NodeType-MT" IsSeedNode="true"  IPAddressOrFQDN="localhost" NodeName="MT" FaultDomain="fd:/WestUS/Rack2/Box1" UpgradeDomain="UpgradeDomain2" />
+        <Node NodeTypeRef="SingleNodeType" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="SingleNode" FaultDomain="fd:/SingleNode/FaultDomain" UpgradeDomain="ud:/SingleNode/UpgradeDomain" />
       </NodeList>
     </WindowsServer>
   </Infrastructure>
 
-
   <FabricSettings>
     <Section Name="Security">
       <Parameter Name="ClusterCredentialType" Value="None" />
-      <Parameter Name="ServerAuthCredentialType" Value="X509" />
-      <Parameter Name="ClientAuthAllowedCommonNames" Value="localhost" />
-      <Parameter Name="ServerAuthAllowedCommonNames" Value="localhost" />
-      <Parameter Name="IgnoreCrlOfflineError" Value="true"/>
+      <Parameter Name="ServerAuthCredentialType" Value="None" />
     </Section>
     
     <Section Name="FailoverManager">
-      <Parameter Name="ExpectedClusterSize" Value="2" />
-      <Parameter Name="MinReplicaSetSize" Value="2" />
-      <Parameter Name="TargetReplicaSetSize" Value="2" />
+      <Parameter Name="ExpectedClusterSize" Value="1" />
+      <Parameter Name="MinReplicaSetSize" Value="1" />
+      <Parameter Name="TargetReplicaSetSize" Value="1" />
     </Section>
     
     <Section Name="ReconfigurationAgent">
@@ -84,8 +54,9 @@
     </Section>
     
     <Section Name="ClusterManager">
-      <Parameter Name="TargetReplicaSetSize" Value="2" />
-      <Parameter Name="MinReplicaSetSize" Value="2" />
+      <Parameter Name="TargetReplicaSetSize" Value="1" />
+      <Parameter Name="MinReplicaSetSize" Value="1" />
+      
       <Parameter Name="UpgradeStatusPollInterval" Value="5" />
       <Parameter Name="UpgradeHealthCheckInterval" Value="5" />
       <Parameter Name="FabricUpgradeHealthCheckInterval" Value="5" />
@@ -96,8 +67,8 @@
     </Section>
     
     <Section Name="NamingService">
-      <Parameter Name="TargetReplicaSetSize" Value="2" />
-      <Parameter Name="MinReplicaSetSize" Value="2" />
+      <Parameter Name="TargetReplicaSetSize" Value="1" />
+      <Parameter Name="MinReplicaSetSize" Value="1" />
     </Section>
     
     <Section Name="Management">
@@ -109,9 +80,10 @@
       <Parameter Name="EndpointProviderEnabled" Value="true" />
       <Parameter Name="RunAsPolicyEnabled" Value="true" />
       <Parameter Name="DeactivationScanInterval" Value="60" />
-      <Parameter Name="DeactivationGraceInterval" Value="10" />
+      <Parameter Name="DeactivationGraceInterval" Value="20" />
+      
       <Parameter Name="EnableProcessDebugging" Value="true" />
-      <Parameter Name="ServiceTypeRegistrationTimeout" Value="20" />
+      <Parameter Name="ServiceTypeRegistrationTimeout" Value="30" />
       <Parameter Name="CacheCleanupScanInterval" Value="300" />
     </Section>
     
@@ -133,12 +105,14 @@
     <Section Name="Diagnostics">
       <Parameter Name="ProducerInstances" Value="ServiceFabricEtlFile, ServiceFabricPerfCtrFolder" />
     </Section>
+    
     <Section Name="ServiceFabricEtlFile">
       <Parameter Name="ProducerType" Value="EtlFileProducer" />
       <Parameter Name="IsEnabled" Value="true" />
       <Parameter Name="EtlReadIntervalInMinutes" Value=" 5" />
       <Parameter Name="DataDeletionAgeInDays" Value="3" />
     </Section>
+    
     <Section Name="ServiceFabricPerfCtrFolder">
       <Parameter Name="ProducerType" Value="FolderProducer" />
       <Parameter Name="IsEnabled" Value="true" />
