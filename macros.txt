@@ -4,3 +4,4 @@ e = gvim.exe $*
 ide = start devenv.exe $*
 wd = windiff.exe $*
 ps = powershell.exe $*
+sfexp = "%ProgramFiles%\Microsoft SDKs\Service Fabric\Tools\ServiceFabricExplorer\ServiceFabricExplorer.exe" $*
