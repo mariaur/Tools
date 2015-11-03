@@ -6,7 +6,7 @@
     Name="Service Fabric Cluster for local Development and Testing"
     Version="1.0">
   <NodeTypes>
-    <NodeType Name="SingleNodeType" >
+    <NodeType Name="$$$SingleNodeType$$$" >
       <Endpoints>
         <!-- Port of the Naming Gateway Service (NGS) -->
         <ClientConnectionEndpoint Port="19000"/>
@@ -30,7 +30,7 @@
   <Infrastructure>
     <WindowsServer IsScaleMin="true">
       <NodeList>
-        <Node NodeTypeRef="SingleNodeType" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="SingleNode" FaultDomain="fd:/SingleNode/FaultDomain" UpgradeDomain="ud:/SingleNode/UpgradeDomain" />
+        <Node NodeTypeRef="$$$SingleNodeType$$$" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="SingleNode" FaultDomain="fd:/SingleNode/FaultDomain" UpgradeDomain="ud:/SingleNode/UpgradeDomain" />
       </NodeList>
     </WindowsServer>
   </Infrastructure>
