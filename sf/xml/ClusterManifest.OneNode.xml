@@ -97,7 +97,7 @@
     
     <Section Name="Federation">
       <Parameter Name="NodeIdGeneratorVersion" Value="V3" />
-      <Parameter Name="GlobalTicketLeaseDuration" Value="60" /> 
+      <Parameter Name="GlobalTicketLeaseDuration" Value="600" /> 
     </Section>
     
     <Section Name="Trace/Etw">
