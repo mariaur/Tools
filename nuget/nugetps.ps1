@@ -6,16 +6,19 @@ $global:pkgSources = [ordered]@{
     Nuget = "https://www.nuget.org/api/v2/";
 
     # Protection Services (PS) NuGet feed
-    PsNuget = "http://ps-nuget/nuget/";
+    PsNuget = "http://ps-nuget.middleeast.corp.microsoft.com/nuget/";
 
     # Microsoft feed
     MsNuget = "https://ms-nuget.cloudapp.net/api/v2/";
 
     # Azure official feed
-    Azure_Official = "http://wanuget/official/nuget";
+    Azure_Official = "http://wanuget.glbdns2.microsoft.com/official/nuget";
 
     # Azure toolset feed
-    Azure_ToolSet = "http://wanuget/toolset/nuget";
+    Azure_ToolSet = "http://wanuget.glbdns2.microsoft.com/toolset/nuget";
+
+    # SQLIS feed
+    SQLIS = "http://sqlisnuget.redmond.corp.microsoft.com/DT/nuget";
 }
 
 $global:NuGetExe = (Join-Path $PSScriptRoot .\nuget.exe)
