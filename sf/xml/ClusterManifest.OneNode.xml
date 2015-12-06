@@ -103,7 +103,7 @@
     </Section>
     
     <Section Name="Trace/Etw">
-      <Parameter Name="Level" Value="4" />
+      <Parameter Name="Level" Value="3" />
     </Section>
     <Section Name="Diagnostics">
       <Parameter Name="ProducerInstances" Value="ServiceFabricEtlFile, ServiceFabricPerfCtrFolder" />
