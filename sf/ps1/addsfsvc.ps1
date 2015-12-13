@@ -32,8 +32,12 @@ if ($services)
     Write-Host
     Write-Host "INFO: Creating services ..."
 
+    # stateful service parameters
     $statefulSvcParams = " -Stateful -HasPersistedState -PartitionSchemeUniformInt64 -PartitionCount 1 -LowKey 0 -HighKey 0 -TargetReplicaSetSize 1 -MinReplicaSetSize 1"
-    $statelessSvcParams = " -Stateless -PartitionSchemeSingleton -InstanceCount 1"
+
+    # stateless service parameters
+    $statelessSvcSingletonParams = " -Stateless -PartitionSchemeSingleton -InstanceCount 1"
+    $statelessSvcPartitionedParams = " -Stateless -PartitionSchemeUniformInt64 -PartitionCount 1 -LowKey 0 -HighKey 0 -InstanceCount 1"
 
     $services | % {
 
@@ -50,7 +54,17 @@ if ($services)
         }
         else
         {
-            $addsvc += $statelessSvcParams
+            # Check for partitioned stateless service
+            $partitioned = ($_.Split(':')[1] -eq 'p')
+
+            if ($partitioned)
+            {
+                $addsvc += $statelessSvcPartitionedParams
+            }
+            else
+            {
+                $addsvc += $statelessSvcSingletonParams
+            }
         }
 
         Write-Host " -> '$serviceName' ..."
