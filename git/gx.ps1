@@ -4,7 +4,10 @@ $ErrorActionPreference = 'Stop'
 $gitdirs = (Get-ChildItem -Directory | ? { Test-Path "$_\.git" -PathType Container })
 
 $args = $args | ? {$_} | % {"`"$_`""}
-$cmd = '& ' + ($args -join ' ')
+if ($args)
+{
+    $cmd = '& ' + ($args -join ' ')
+}
 
 # Invoke the command in each repo
 $gitdirs | % {
