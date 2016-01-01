@@ -13,7 +13,7 @@ if ($args)
 $gitdirs | % {
 
     $dir = $pwd
-    cd $_; Write-Host "-> [ $_.Name ]" -ForegroundColor Yellow
+    cd $_; Write-Host "`n-> [ $_.Name ]" -ForegroundColor Yellow
 
     try
     {
