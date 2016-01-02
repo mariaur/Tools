@@ -12,7 +12,8 @@ $gitdirs | % {
 
     try
     {
-        if ($cmd)
+        # Note: handle empty input
+        if ($cmd -ne '="')
         {
             iex $cmd
         }
