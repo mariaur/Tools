@@ -4,6 +4,8 @@ $ErrorActionPreference = 'Stop'
 # Get a list of all Git repositories
 $gitdirs = (Get-ChildItem -Directory | ? { Test-Path "$_\.git" -PathType Container })
 
+$isEmptyCmd = ($cmd -eq '="')
+
 # Invoke the command in each repo
 $gitdirs | % {
 
@@ -12,8 +14,7 @@ $gitdirs | % {
 
     try
     {
-        # Note: handle empty input
-        if ($cmd -ne '="')
+        if (-not $isEmptyCmd)
         {
             iex $cmd
         }
