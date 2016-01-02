@@ -1,1 +1,6 @@
-@powershell %~dp0\gx.ps1 "'%~1' '%~2' '%~3' '%~4' '%~5' '%~6' '%~7' '%~8' '%~9'"
+@echo off
+setlocal
+
+set args=%*
+set args=%args:"=\"%
+@powershell %~dp0\gx.ps1 '%args%'

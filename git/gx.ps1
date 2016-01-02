@@ -1,13 +1,8 @@
+param($cmd)
 $ErrorActionPreference = 'Stop'
 
 # Get a list of all Git repositories
 $gitdirs = (Get-ChildItem -Directory | ? { Test-Path "$_\.git" -PathType Container })
-
-$args = $args | ? {$_} | % {"`"$_`""}
-if ($args)
-{
-    $cmd = '& ' + ($args -join ' ')
-}
 
 # Invoke the command in each repo
 $gitdirs | % {
