@@ -12,6 +12,12 @@ else
     $graph = '--graph'
 }
 
-$cmd = 'git log --pretty="' + $format + '" ' + $graph + ' ' + $a + ' .'
+$cmd = 'git log --pretty="' + $format + '" ' + $graph + ' ' + $a
+
+if (-not $a)
+{
+    $cmd +=  ' .'
+}
+
 iex $cmd
 
