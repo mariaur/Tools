@@ -63,7 +63,6 @@
     </Section>
     
     <Section Name="TransactionalReplicator">
-      <Parameter Name="MaxUnstableTransactionsAtHighLogUsage" Value="100" />
       <Parameter Name="MaxStreamSizeInMB" Value="4096" />
       <Parameter Name="MaxWriteSizeInMB" Value="100" />
     </Section>
