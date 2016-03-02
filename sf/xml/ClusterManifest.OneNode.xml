@@ -6,7 +6,30 @@
     Name="Service Fabric Cluster for local Development and Testing"
     Version="1.0">
   <NodeTypes>
-    <NodeType Name="SingleNodeType" >
+    <NodeType Name="FE" >
+      <Endpoints>
+        <!-- Port of the Naming Gateway Service (NGS) -->
+        <ClientConnectionEndpoint Port="19010"/>
+        <HttpGatewayEndpoint Port="19017" Protocol="https"/>
+        <LeaseDriverEndpoint Port="19011"/>
+
+        <ClusterConnectionEndpoint Port="19012"/>
+        <ServiceConnectionEndpoint Port="19016"/>
+        
+        <!-- List of ports that Service Fabric may use in this node for customer's services -->
+        <ApplicationEndpoints StartPort="44333" EndPort="44340"/>
+      </Endpoints>
+      
+      <!-- Define placement properties -->
+      <PlacementProperties>
+        <Property Name="NodeDomainType" Value="FE" />
+      </PlacementProperties>
+      <!-- localhost certificate -->
+      <Certificates>
+        <ServerCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
+      </Certificates>
+    </NodeType>
+    <NodeType Name="MT" >
       <Endpoints>
         <!-- Port of the Naming Gateway Service (NGS) -->
         <ClientConnectionEndpoint Port="19000"/>
@@ -17,12 +40,12 @@
         <ServiceConnectionEndpoint Port="19006"/>
         
         <!-- List of ports that Windows Fabric may use in this node for customer's services -->
-        <ApplicationEndpoints StartPort="44333" EndPort="44333"/>
+        <ApplicationEndpoints StartPort="44433" EndPort="44440"/>
       </Endpoints>
       
       <!-- Define placement properties -->
       <PlacementProperties>
-        <Property Name="NodeDomainType" Value="$$$NodeDomainType$$$" />
+        <Property Name="NodeDomainType" Value="MT" />
       </PlacementProperties>
     </NodeType>
   </NodeTypes>
@@ -30,7 +53,8 @@
   <Infrastructure>
     <WindowsServer IsScaleMin="true">
       <NodeList>
-        <Node NodeTypeRef="SingleNodeType" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="SingleNode" FaultDomain="fd:/SingleNode/FaultDomain" UpgradeDomain="ud:/SingleNode/UpgradeDomain" />
+        <Node NodeTypeRef="FE" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="FE.01" FaultDomain="fd:/FE/FD1" UpgradeDomain="ud:/FE/UD1" />
+        <Node NodeTypeRef="MT" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="MT.01" FaultDomain="fd:/MT/FD1" UpgradeDomain="ud:/MT/UD1" />
       </NodeList>
     </WindowsServer>
   </Infrastructure>
