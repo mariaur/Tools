@@ -1,0 +1,95 @@
+
+PortQry version 2.0 
+
+Displays the state of TCP and UDP ports
+
+
+Command line mode:  portqry -n name_to_query [-options]
+Interactive mode:   portqry -i [-n name_to_query] [-options]
+Local Mode:         portqry -local | -wpid pid| -wport port [-options]
+
+Command line mode:
+
+portqry -n name_to_query [-p protocol] [-e || -r || -o endpoint(s)] [-q] 
+        [-l logfile] [-sp source_port] [-sl] [-cn SNMP community name]
+
+Command line mode options explained:
+	-n [name_to_query] IP address or name of system to query
+	-p [protocol] TCP or UDP or BOTH (default is TCP)
+	-e [endpoint] single port to query (valid range: 1-65535)
+	-r [end point range] range of ports to query (start:end)
+	-o [end point order] range of ports to query in an order (x,y,z)
+	-l [logfile] name of text log file to create
+	-y overwrites existing text log file without prompting
+	-sp [source port] initial source port to use for query
+	-sl 'slow link delay' waits longer for UDP replies from remote systems
+	-nr by-passes default IP address-to-name resolution
+            ignored unless an IP address is specified after -n
+	-cn specifies SNMP community name for query
+            ignored unless querying an SNMP port
+            must be delimited with !
+	-q 'quiet' operation runs with no output
+           returns 0 if port is listening 		
+           returns 1 if port is not listening
+           returns 2 if port is listening or filtered
+
+Notes:  PortQry runs on Windows 2000 and later systems
+        Defaults: TCP, port 80, no log file, slow link delay off
+        Hit Ctrl-c to terminate prematurely
+
+examples:
+portqry -n myserver.com -e 25
+portqry -n 10.0.0.1 -e 53 -p UDP -i
+portqry -n host1.dev.reskit.com -r 21:445
+portqry -n 10.0.0.1 -o 25,445,1024 -p both -sp 53
+portqry -n host2 -cn !my community name! -e 161 -p udp
+
+
+Interactive Mode:
+
+Used as an alternative to command line mode
+
+portqry -i [-options]
+
+For help with Interactive mode options:
+        - run portqry.exe 
+        - then type 'help' <enter>
+
+example:
+portqry -i -n server1 -e 135 -p both
+
+
+Local Mode:
+
+Local Mode used to get detailed data on local system's ports
+
+portqry -local | -wpid pid | -wport port [-wt seconds] [-l logfile] [-v]
+
+Local mode options explained:
+	-local enumerates local port usage, port to process mapping,
+	       service port usage, and lists loaded modules
+
+	-wport [port_number] watches specified port
+	       reports when port's connection status changes
+
+	-wpid [process_ID] watches specified process ID (PID)
+	      reports when PID's connection status changes
+
+	-wt [seconds] watch time option
+	    specifies how often to check for status changes
+	    valid range: 1 - 1200 seconds
+	    default value is 60 seconds
+
+	-l [logfile] name of text log file to create
+	-v requests verbose output
+
+Notes:  PortQry runs on Windows 2000 and later systems
+        For best results run in context of local administrator
+        Port to process mapping may not be available on all systems
+        Hit Ctrl-c to terminate prematurely
+
+examples:
+portqry -local
+portqry -local -l logfile.txt -v
+portqry -wpid 1272 -wt 5 -l logfile.txt -y -v
+portqry -wport 53 -l dnslog.txt
