@@ -8,7 +8,7 @@ doskey cdcp=pushd C:\Git\WD.Services.CloudProtection
 doskey StashPull=call C:\Git\Tools\WDGit\StashPull.cmd
 doskey Validate=call C:\Git\Tools\WDGit\Validate.cmd
 doskey StartSF=powershell "C:\Git\WD.Services.CloudProtection\Scripts\Restart-ServiceFabricDevCluster.ps1" $*
-doskey DeployCP=powershell "C:\Git\WD.Services.CloudProtection\Scripts\Redeploy-CloudProtectionToDevCluster.ps1" $*
+doskey DeployCP=powershell "C:\Git\WD.Services.CloudProtection\Scripts\Redeploy-CloudProtectionToDevCluster.ps1 CloudManagement, CloudEngine" $*
 doskey PushApp=call C:\Git\Tools\WDGit\PushAppPPE.cmd
 rem start VS 2015.2 Prompt
 "%VS140COMNTOOLS%\VsDevCmd.bat" amd64
