@@ -1,5 +1,6 @@
 git config --system alias.dt "difftool -d"
 git config --system alias.dts "difftool -d --staged"
+git config --system push.followTags true
 
 git config --system core.pager "less -+S"
 git config --system core.editor gvim.exe

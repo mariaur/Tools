@@ -1,0 +1,50 @@
+<Window 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  Title="Git Change History" WindowStyle="ThreeDBorderWindow">
+
+  <Window.Resources>
+    <ContextMenu x:Key="ContextMenu" Name="ContextMenu">
+      <MenuItem Header="View" />
+      <MenuItem Header="Show" />
+      <MenuItem Header="Copy" />
+    </ContextMenu>
+  </Window.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <ListView Name="ListView" Grid.Row="0" SelectedIndex="0"
+      ContextMenu="{StaticResource ContextMenu}">
+      <ListView.ItemContainerStyle> 
+        <Style TargetType="{x:Type ListViewItem}"> 
+          <Style.Triggers> 
+            <Trigger Property="IsMouseOver" Value="True"> 
+              <Setter Property="Foreground" Value="Blue" /> 
+            </Trigger> 
+            <Trigger Property="IsSelected" Value="True"> 
+              <Setter Property="FontWeight" Value="Bold" /> 
+            </Trigger> 
+          </Style.Triggers> 
+        </Style> 
+      </ListView.ItemContainerStyle>      
+      <ListView.View>
+        <GridView>
+          <GridViewColumn Header="Commit" DisplayMemberBinding ="{Binding 'Commit'}"/>
+          <GridViewColumn Header="Description" DisplayMemberBinding ="{Binding 'Description'}"/>
+          <GridViewColumn Header="User" DisplayMemberBinding ="{Binding 'User'}"/>
+          <GridViewColumn Header="Time" DisplayMemberBinding ="{Binding 'Time'}"/>
+          <GridViewColumn Header="Version" DisplayMemberBinding ="{Binding 'Version'}"/>
+        </GridView>
+      </ListView.View>
+    </ListView>
+    <Button Name="View" Content="View" Width="0" Height="0"
+      IsDefault="True" Grid.Row="1" HorizontalAlignment="Left" />
+  </Grid>
+</Window>
+
