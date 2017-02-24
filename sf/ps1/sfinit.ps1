@@ -19,22 +19,31 @@ if (-not $env:SF_CLUSTER_MANIFEST)
 $clusterManifest = $env:SF_CLUSTER_MANIFEST
 
 
-# Service fabric app name
-if (-not $env:SF_APP_NAME)
+# Service fabric app type
+if (-not $env:SF_APP_TYPE)
 {
-    $env:SF_APP_NAME = 'PSApp'
+    $env:SF_APP_TYPE = 'PSApp'
 }
+$fabricAppType = $env:SF_APP_TYPE
 
-$fabricAppName = $env:SF_APP_NAME
+# check for app instance name
+if (-not $env:SF_APP_INSTANCE)
+{
+    $env:SF_APP_INSTANCE = $env:SF_APP_TYPE
+}
+$fabricAppInstance = $env:SF_APP_INSTANCE
 
-# Derive the app package name (based on the app name)
-$fabricAppPkgName = $fabricAppName + 'Pkg'
+
+
+# Derive the app package name (based on the app type)
+$fabricAppPkgName = $fabricAppType + 'Pkg'
 
 Write-Host
 Write-Host "Environment variables - " -ForegroundColor White
 Write-Host
 Write-Host " -> SF_CLUSTER_MANIFEST     - $env:SF_CLUSTER_MANIFEST"
-Write-Host " -> SF_APP_NAME             - $env:SF_APP_NAME"
+Write-Host " -> SF_APP_TYPE             - $env:SF_APP_TYPE"
+Write-Host " -> SF_APP_INSTANCE         - $env:SF_APP_INSTANCE"
 Write-Host " -> SF_APP_PACKAGE_ROOT     - $env:SF_APP_PACKAGE_ROOT"
 Write-Host " -> SF_APP_SERVICE_NAMES    - $env:SF_APP_SERVICE_NAMES"
 Write-Host

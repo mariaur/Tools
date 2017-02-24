@@ -31,7 +31,7 @@ param(
 
     # default files
     [Alias("f")]
-    [string]$files = '*.cs *.*proj *.ps1 *.psm1 *.config *.xml *.cpp *.h *.props'
+    [string]$files = '*.cs *.*proj *.ps1 *.psm1 *.config *.cpp *.h *.props *.bond'
     )
 
 # load the C# worker 

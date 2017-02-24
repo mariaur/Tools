@@ -3,58 +3,77 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://schemas.microsoft.com/2011/01/fabric"
-    Name="Service Fabric Cluster for local Development and Testing"
+    Name="Service Fabric Cluster Manifest - OneBox"
     Version="1.0">
   <NodeTypes>
-    <NodeType Name="FE" >
-      <Endpoints>
-        <!-- Port of the Naming Gateway Service (NGS) -->
-        <ClientConnectionEndpoint Port="19010"/>
-        <HttpGatewayEndpoint Port="19017" Protocol="https"/>
-        <LeaseDriverEndpoint Port="19011"/>
-
-        <ClusterConnectionEndpoint Port="19012"/>
-        <ServiceConnectionEndpoint Port="19016"/>
-        
-        <!-- List of ports that Service Fabric may use in this node for customer's services -->
-        <ApplicationEndpoints StartPort="44333" EndPort="44340"/>
-      </Endpoints>
-      
-      <!-- Define placement properties -->
-      <PlacementProperties>
-        <Property Name="NodeDomainType" Value="FE" />
-      </PlacementProperties>
-      <!-- localhost certificate -->
-      <Certificates>
-        <ServerCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
-      </Certificates>
-    </NodeType>
     <NodeType Name="MT" >
       <Endpoints>
-        <!-- Port of the Naming Gateway Service (NGS) -->
         <ClientConnectionEndpoint Port="19000"/>
-        <HttpGatewayEndpoint Port="19007" Protocol="http"/>
         <LeaseDriverEndpoint Port="19001"/>
-        
         <ClusterConnectionEndpoint Port="19002"/>
-        <ServiceConnectionEndpoint Port="19006"/>
-        
-        <!-- List of ports that Windows Fabric may use in this node for customer's services -->
-        <ApplicationEndpoints StartPort="44433" EndPort="44440"/>
+        <ServiceConnectionEndpoint Port="19005"/>
+
+        <HttpGatewayEndpoint Port="19007" Protocol="http"/>
+        <ApplicationEndpoints StartPort="30001" EndPort="31000"/>
       </Endpoints>
-      
-      <!-- Define placement properties -->
       <PlacementProperties>
         <Property Name="NodeDomainType" Value="MT" />
       </PlacementProperties>
+    </NodeType>
+    <NodeType Name="MTEX" >
+      <Endpoints>
+        <ClientConnectionEndpoint Port="19010"/>
+        <LeaseDriverEndpoint Port="19011"/>
+        <ClusterConnectionEndpoint Port="19012"/>
+        <ServiceConnectionEndpoint Port="19015"/>
+
+        <HttpGatewayEndpoint Port="19017" Protocol="http"/>
+        <ApplicationEndpoints StartPort="33001" EndPort="34000"/>
+      </Endpoints>
+      <PlacementProperties>
+        <Property Name="NodeDomainType" Value="MTEX" />
+      </PlacementProperties>
+    </NodeType>
+    <NodeType Name="MTRT" >
+      <Endpoints>
+        <ClientConnectionEndpoint Port="19020"/>
+        <LeaseDriverEndpoint Port="19021"/>
+        <ClusterConnectionEndpoint Port="19022"/>
+        <ServiceConnectionEndpoint Port="19025"/>
+
+        <HttpGatewayEndpoint Port="19027" Protocol="http"/>
+        <ApplicationEndpoints StartPort="34001" EndPort="35000"/>
+      </Endpoints>
+      <PlacementProperties>
+        <Property Name="NodeDomainType" Value="MTRT" />
+      </PlacementProperties>
+    </NodeType>
+    <NodeType Name="FE" >
+      <Endpoints>
+        <ClientConnectionEndpoint Port="19030"/>
+        <LeaseDriverEndpoint Port="19031"/>
+        <ClusterConnectionEndpoint Port="19032"/>
+        <ServiceConnectionEndpoint Port="19035"/>
+
+        <HttpGatewayEndpoint Port="19037" Protocol="http"/>
+        <ApplicationEndpoints StartPort="44333" EndPort="44400"/>
+      </Endpoints>
+      <PlacementProperties>
+        <Property Name="NodeDomainType" Value="FE" />
+      </PlacementProperties>
+      <Certificates>
+        <ServerCertificate X509FindValue="6554a80890219acbb90ae9ef25eb3ce67bfacb35" />
+      </Certificates>
     </NodeType>
   </NodeTypes>
   
   <Infrastructure>
     <WindowsServer IsScaleMin="true">
       <NodeList>
-        <Node NodeTypeRef="FE" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="FE.01" FaultDomain="fd:/FE/FD1" UpgradeDomain="ud:/FE/UD1" />
-        <Node NodeTypeRef="MT" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="MT.01" FaultDomain="fd:/MT/FD1" UpgradeDomain="ud:/MT/UD1" />
+        <Node NodeTypeRef="MT" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="MT.01" FaultDomain="fd:/MT" UpgradeDomain="ud:/MT" />
+        <Node NodeTypeRef="MTEX" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="MTEX.01" FaultDomain="fd:/MTEX" UpgradeDomain="ud:/MTEX" />
+        <Node NodeTypeRef="MTRT" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="MTRT.01" FaultDomain="fd:/MTRT" UpgradeDomain="ud:/MTRT" />
+        <Node NodeTypeRef="FE" IsSeedNode="true" IPAddressOrFQDN="localhost" NodeName="FE.01" FaultDomain="fd:/FE" UpgradeDomain="ud:/FE" />
       </NodeList>
     </WindowsServer>
   </Infrastructure>
@@ -88,7 +107,6 @@
     
     <Section Name="TransactionalReplicator">
       <Parameter Name="MaxStreamSizeInMB" Value="4096" />
-      <Parameter Name="MaxWriteSizeInMB" Value="100" />
     </Section>
     
     <Section Name="NamingService">

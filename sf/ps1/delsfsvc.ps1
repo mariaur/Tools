@@ -12,17 +12,17 @@ if ($services)
         $serviceName = $_.Split(':')[0]
 
         Write-Host " -> '$serviceName' ..."
-        TryAction { Remove-ServiceFabricService -ServiceName "fabric:/$fabricAppName/$serviceName" -Force }
+        TryAction { Remove-ServiceFabricService -ServiceName "fabric:/$fabricAppInstance/$serviceName" -Force }
     }
 }
 
 Write-Host
-Write-Host "INFO: Removing application ('fabric:/$fabricAppName') ..."
-TryAction { Remove-ServiceFabricApplication -ApplicationName "fabric:/$fabricAppName" -Force }
+Write-Host "INFO: Removing application ('fabric:/$fabricAppInstance') ..."
+TryAction { Remove-ServiceFabricApplication -ApplicationName "fabric:/$fabricAppInstance" -Force }
 
 Write-Host
-Write-Host "INFO: Removing application type ('$fabricAppName') ..."
-TryAction { Unregister-ServiceFabricApplicationType -ApplicationTypeName $fabricAppName -ApplicationTypeVersion 1.0 -Force }
+Write-Host "INFO: Removing application type ('$fabricAppType') ..."
+TryAction { Unregister-ServiceFabricApplicationType -ApplicationTypeName $fabricAppType -ApplicationTypeVersion 1.0 -Force }
 
 Write-Host
 Write-Host "INFO: Removing application package ('$fabricAppPkgName') ..."

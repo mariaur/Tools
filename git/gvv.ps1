@@ -146,12 +146,15 @@ $WPF_ListView.Add_MouseDoubleClick({ Invoke-Viewer })
 # Attach click handler to the view button ("invisible")
 $WPF_View.Add_Click({ Invoke-Viewer })
 
+# Csv delimiter
+$dm = "`b"
+
 # Pull the git history
-$hdr = "Commit|Description|User|Time|Version`n"
+$hdr = "Commit$($dm)Description$($dm)User$($dm)Time$($dm)Version`n"
 
 $a = "."
 if ($args) { $a = $args }
-$cmd = "git log --pretty=`"format:%h%d|%s|%ce|%cr|%ci`" $a"
+$cmd = "git log --pretty=`"format:%h%d$($dm)%s$($dm)%ce$($dm)%cr$($dm)%ci`" $a"
 
 $git = iex $cmd
 
@@ -163,7 +166,7 @@ if ($LastExitCode -ne 0 )
 $csv = $hdr + ($git -join "`n")
 
 # Populate the list view
-$csv | ConvertFrom-Csv -Delimiter "|" | % {
+$csv | ConvertFrom-Csv -Delimiter $dm | % {
     $c = $_
 
     $timeStamp = ([datetime]$c.Version).ToUniversalTime()

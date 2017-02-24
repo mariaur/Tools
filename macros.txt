@@ -4,4 +4,12 @@ e = gvim.exe $*
 ide = start devenv.exe $*
 wd = windiff.exe $*
 ps = powershell.exe $*
-sfexp = "%ProgramFiles%\Microsoft SDKs\Service Fabric\Tools\ServiceFabricExplorer\ServiceFabricExplorer.exe" $*
+
+ap = pushd %WDRoot%\WD.Services.Application
+fp = pushd %WDRoot%\WD.Services.FileProcessing
+cp = pushd %WDRoot%\WD.Services.CloudProtection
+ci = pushd %WDRoot%\WD.Services.CloudIntelligence
+sr = pushd %WDRoot%\WD.Services.SignatureRelease
+cm = pushd %WDRoot%\WD.Services.Common
+sm = pushd %WDRoot%\WD.Services.Schema
+
