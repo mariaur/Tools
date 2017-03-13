@@ -2,7 +2,7 @@
 title Git CMD
 doskey NP="C:\Program Files (x86)\Notepad++\notepad++.exe" $*
 doskey GS=git status
-doskey Pull=git pull
+doskey Pull=git pull --rebase
 doskey Push=git push
 doskey cdcp=pushd "%~dp0\..\..\WD.Services.CloudProtection"
 doskey StashPull=call "%~dp0\StashPull.cmd"
