@@ -36,9 +36,9 @@
       <ListView.View>
         <GridView>
           <GridViewColumn Header="Commit" DisplayMemberBinding ="{Binding 'Commit'}"/>
-          <GridViewColumn Header="Description" DisplayMemberBinding ="{Binding 'Description'}"/>
           <GridViewColumn Header="User" DisplayMemberBinding ="{Binding 'User'}"/>
           <GridViewColumn Header="Time" DisplayMemberBinding ="{Binding 'Time'}"/>
+          <GridViewColumn Header="Description" DisplayMemberBinding ="{Binding 'Description'}"/>
           <GridViewColumn Header="Version" DisplayMemberBinding ="{Binding 'Version'}"/>
         </GridView>
       </ListView.View>

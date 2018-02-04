@@ -1,1 +1,1 @@
-git add -A && git stash && git pull && git stash pop
+git add -A && git stash && git pull --rebase && git stash pop

@@ -29,6 +29,9 @@ if %ERRORLEVEL% NEQ 0 goto :ERROR
 call %SCRIPTDIR%\sqlcmd_xml.cmd _database.xml _database.xml
 if %ERRORLEVEL% NEQ 0 goto :ERROR
 
+sqlcmd -i %SCRIPTDIR%\sqlcmd_xml.sql -S %SERVERNAME% -d %DATABASENAME% -v InputFile="%SCRIPTDIR%\database_code.sql" -o _database_code.xml
+if %ERRORLEVEL% NEQ 0 goto :ERROR
+
 if {%SCHEMAONLY%} == {1} goto :EXIT
 
 echo.

@@ -24,8 +24,8 @@ Write-Host "INFO: Registering application type ..."
 Register-ServiceFabricApplicationType -ApplicationPathInImageStore $fabricAppPkgName
 
 Write-Host
-Write-Host "INFO: Creating application instance ('fabric:/$fabricAppName') ..."
-New-ServiceFabricApplication -ApplicationName "fabric:/$fabricAppName" -ApplicationTypeName $fabricAppName -ApplicationTypeVersion 1.0
+Write-Host "INFO: Creating application instance ('fabric:/$fabricAppInstance') ..."
+New-ServiceFabricApplication -ApplicationName "fabric:/$fabricAppInstance" -ApplicationTypeName $fabricAppType -ApplicationTypeVersion 1.0
 
 if ($services)
 {
@@ -46,7 +46,7 @@ if ($services)
         # Check for stateful service
         $statefulSvc = ($_.Split(':')[1] -eq 's')
 
-        $addsvc = "New-ServiceFabricService -ApplicationName 'fabric:/$fabricAppName' -ServiceName 'fabric:/$fabricAppName/$serviceName' -ServiceTypeName '$($serviceName)Type'"
+        $addsvc = "New-ServiceFabricService -ApplicationName 'fabric:/$fabricAppInstance' -ServiceName 'fabric:/$fabricAppInstance/$serviceName' -ServiceTypeName '$($serviceName)Type'"
 
         if ($statefulSvc)
         {

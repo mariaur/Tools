@@ -19,6 +19,9 @@ $global:pkgSources = [ordered]@{
 
     # SQLIS feed
     SQLIS = "http://sqlisnuget.redmond.corp.microsoft.com/DT/nuget";
+	
+	
+	ESRP = "https://mpsit.pkgs.visualstudio.com/_packaging/SFP-Packages";
 }
 
 $global:NuGetExe = (Join-Path $PSScriptRoot .\nuget.exe)
