@@ -7,8 +7,8 @@ doskey Push=git push $*
 doskey CO=git checkout "$*"
 doskey NB=git checkout -b "$*"
 doskey X=exit
-doskey Pie=cd "%~dp0\..\..\Ess.PIE"
-doskey Portal=cd "%~dp0\..\..\Ess.InsightsPortal"
+doskey LocalClean=@PowerShell -ExecutionPolicy Bypass -Command ". LocalClean.ps1 %*"
+doskey RemoteClean=@PowerShell -ExecutionPolicy Bypass -Command ". RemoteClean.ps1 %*"
 call "%~dp0\GitDiffSetup.cmd"
 pushd .
 rem start VS 2017 Prompt
